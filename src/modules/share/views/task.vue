@@ -28,7 +28,7 @@
 	</cl-crud>
 </template>
 
-<script lang="ts" name="share-info" setup>
+<script lang="ts" name="share-task" setup>
 import { useCrud, useTable, useUpsert } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 
@@ -38,14 +38,19 @@ const { service } = useCool();
 const Upsert = useUpsert({
 	items: [
 		{ label: "商品ID", prop: "goodId", required: true, component: { name: "el-input" } },
-		{ label: "商品名称", prop: "goodName", required: true, component: { name: "el-input" } },
+		{ label: "用户ID", prop: "userId", required: true, component: { name: "el-input" } },
+		{ label: "分组ID", prop: "groupId", required: true, component: { name: "el-input" } },
 		{
-			label: "图片",
-			prop: "pics",
-			component: { name: "cl-upload", props: { listType: "picture-card", multiple: true } },
+			label: "执行时间",
+			prop: "actionTime",
+			component: {
+				name: "el-date-picker",
+				props: { type: "datetime", valueFormat: "YYYY-MM-DD HH:mm:ss" }
+			},
 			required: true
 		},
-		{ label: "价格", prop: "prices", required: true, component: { name: "el-input" } }
+		{ label: "价格比例", prop: "scale", required: true, component: { name: "el-input" } },
+		{ label: "文案", prop: "text", component: { name: "cl-editor-wang" }, required: true }
 	]
 });
 
@@ -53,12 +58,12 @@ const Upsert = useUpsert({
 const Table = useTable({
 	columns: [
 		{ type: "selection" },
-		{ label: "商品ID", prop: "goodId" },
 		{ label: "商品名称", prop: "goodName" },
-		{ label: "图片", prop: "pics", component: { name: "cl-image", props: { size: 60 } } },
-		{ label: "价格", prop: "prices" },
-		{ label: "创建时间", prop: "createTime" },
-		{ label: "更新时间", prop: "updateTime" },
+		{ label: "用户", prop: "userName" },
+		{ label: "分组", prop: "groupName" },
+		{ label: "执行时间", prop: "actionTime" },
+		{ label: "价格比例", prop: "scale" },
+		{ label: "文案", prop: "text" },
 		{ type: "op", buttons: ["edit", "delete"] }
 	]
 });
@@ -66,7 +71,7 @@ const Table = useTable({
 // cl-crud 配置
 const Crud = useCrud(
 	{
-		service: service.share.info
+		service: service.share.task
 	},
 	(app) => {
 		app.refresh();
