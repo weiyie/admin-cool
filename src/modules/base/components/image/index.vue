@@ -1,21 +1,26 @@
 <template>
 	<div
 		class="cl-image"
+		:class="{ 'show-all': showAll }"
 		:style="{
 			justifyContent: justify,
-			height: style.h
+			height: lazy ? style.h : 'auto'
 		}"
 	>
 		<el-image
-			:src="urls[0]"
+			v-for="(img, index) in showUrls"
+			:key="img + index"
+			:src="img"
 			:fit="fit"
 			:lazy="lazy"
+			:initial-index="showIndex"
 			:preview-src-list="urls"
 			:style="{
 				height: style.h,
 				width: style.w
 			}"
 			preview-teleported
+			@click="changeIndex(index)"
 		>
 			<template #error>
 				<div class="image-slot">
@@ -27,9 +32,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { isArray, isNumber, isString } from "lodash-es";
 import { PictureFilled } from "@element-plus/icons-vue";
+import { imageProps } from "element-plus";
 import { parsePx } from "/@/cool/utils";
 
 export default defineComponent({
@@ -46,9 +52,16 @@ export default defineComponent({
 			type: [Number, Array],
 			default: 100
 		},
-		lazy: Boolean,
+		lazy: {
+			type: Boolean,
+			default: false
+		},
+		showAll: {
+			type: Boolean,
+			default: true
+		},
 		fit: {
-			type: String,
+			type: imageProps.fit.type,
 			default: "cover"
 		},
 		justify: {
@@ -58,6 +71,9 @@ export default defineComponent({
 	},
 
 	setup(props) {
+		// 是否可见
+		const showIndex = ref<number>(0);
+
 		const urls = computed(() => {
 			const urls: any = props.modelValue || props.src;
 
@@ -81,7 +97,18 @@ export default defineComponent({
 			};
 		});
 
+		const showUrls = computed(() => {
+			return props.showAll ? urls.value : urls.value.slice(0, 1);
+		});
+
+		function changeIndex(val: number) {
+			showIndex.value = val;
+		}
+
 		return {
+			changeIndex,
+			showIndex,
+			showUrls,
 			urls,
 			style
 		};
@@ -104,6 +131,17 @@ export default defineComponent({
 			height: 100%;
 			background-color: #f7f7f7;
 			border-radius: 3px;
+		}
+	}
+}
+
+.show-all {
+	&.cl-image {
+		display: block;
+		overflow-x: hidden;
+		overflow-y: auto;
+		.el-image {
+			display: inline-block;
 		}
 	}
 }
