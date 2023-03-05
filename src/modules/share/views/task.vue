@@ -8,6 +8,8 @@
 			<!-- 删除按钮 -->
 			<cl-multi-delete-btn />
 			<cl-flex1 />
+			<cl-input prop="userName" />
+			<cl-input prop="groupName" />
 			<!-- 关键字搜索 -->
 			<cl-search-key />
 		</cl-row>
