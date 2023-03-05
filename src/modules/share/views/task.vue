@@ -59,11 +59,16 @@ const Table = useTable({
 	columns: [
 		{ type: "selection" },
 		{ label: "商品名称", prop: "goodName" },
+		{
+			label: "图片",
+			prop: "pics",
+			width: 210,
+			component: { name: "cl-image", props: { size: 50 } }
+		},
+		{ label: "文案", prop: "text" },
+		{ label: "执行时间", prop: "actionTime" },
 		{ label: "用户", prop: "userName" },
 		{ label: "分组", prop: "groupName" },
-		{ label: "执行时间", prop: "actionTime" },
-		{ label: "价格比例", prop: "scale" },
-		{ label: "文案", prop: "text" },
 		{ type: "op", buttons: ["edit", "delete"] }
 	]
 });

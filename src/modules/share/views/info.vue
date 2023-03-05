@@ -55,7 +55,12 @@ const Table = useTable({
 		{ type: "selection" },
 		{ label: "商品ID", prop: "goodId" },
 		{ label: "商品名称", prop: "goodName" },
-		{ label: "图片", prop: "pics", component: { name: "cl-image", props: { size: 60 } } },
+		{
+			label: "图片",
+			prop: "pics",
+			width: 210,
+			component: { name: "cl-image", props: { size: 50 } }
+		},
 		{ label: "价格", prop: "prices" },
 		{ label: "创建时间", prop: "createTime" },
 		{ label: "更新时间", prop: "updateTime" },
