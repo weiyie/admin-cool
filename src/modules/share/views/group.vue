@@ -3,6 +3,8 @@
 		<cl-row>
 			<!-- 刷新按钮 -->
 			<cl-refresh-btn />
+			<!-- 新增按钮 -->
+			<cl-add-btn />
 			<!-- 删除按钮 -->
 			<cl-multi-delete-btn />
 			<cl-flex1 />
@@ -20,44 +22,39 @@
 			<!-- 分页控件 -->
 			<cl-pagination />
 		</cl-row>
+
+		<!-- 新增、编辑 -->
+		<cl-upsert ref="Upsert" />
 	</cl-crud>
 </template>
 
-<script lang="ts" name="share-task_record" setup>
-import { useCrud, useTable } from "@cool-vue/crud";
+<script lang="ts" name="share-group" setup>
+import { useCrud, useTable, useUpsert } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 
 const { service } = useCool();
+
+// cl-upsert 配置
+const Upsert = useUpsert({
+	items: [{ label: "分组名称", prop: "name", required: true, component: { name: "el-input" } }]
+});
 
 // cl-table 配置
 const Table = useTable({
 	columns: [
 		{ type: "selection" },
-		{ label: "商品名称", prop: "goodName" },
-		{
-			label: "图片",
-			prop: "pics",
-			width: 210,
-			component: { name: "cl-image", props: { size: 50 } }
-		},
-		{ label: "文案", prop: "text" },
-		{
-			label: "用户",
-			prop: "userName",
-			formatter(row) {
-				return `${row.userName}-${row.childName}`;
-			}
-		},
-		{ label: "备注", prop: "remark" },
+		{ label: "分组名称", prop: "name" },
+		{ label: "用户", prop: "username" },
 		{ label: "创建时间", prop: "createTime" },
-		{ type: "op", buttons: ["delete"], width: 80 }
+		{ label: "更新时间", prop: "updateTime" },
+		{ type: "op", buttons: ["edit", "delete"] }
 	]
 });
 
 // cl-crud 配置
 const Crud = useCrud(
 	{
-		service: service.share.task_record
+		service: service.share.group
 	},
 	(app) => {
 		app.refresh();

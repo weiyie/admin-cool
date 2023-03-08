@@ -3,11 +3,11 @@
 		<cl-row>
 			<!-- 刷新按钮 -->
 			<cl-refresh-btn />
+			<!-- 新增按钮 -->
+			<cl-add-btn />
 			<!-- 删除按钮 -->
 			<cl-multi-delete-btn />
 			<cl-flex1 />
-			<cl-input prop="userName" />
-			<cl-input prop="groupName" />
 			<!-- 关键字搜索 -->
 			<cl-search-key />
 		</cl-row>
@@ -28,25 +28,15 @@
 	</cl-crud>
 </template>
 
-<script lang="ts" name="share-task" setup>
+<script lang="ts" name="share-children" setup>
 import { useCrud, useTable, useUpsert } from "@cool-vue/crud";
 import { ref } from "vue";
 import { useCool } from "/@/cool";
 
 const { service } = useCool();
 
-const goodOptions = ref<any[]>([]);
-
-function getGoodList(val: string) {
-	service.share.info.list({ keyWord: val }).then((res) => {
-		goodOptions.value = res.map((item: any) => ({
-			label: item.goodName,
-			value: item.goodId
-		}));
-	});
-}
-
 const groupOption = ref<any[]>([]);
+
 function getGroupOption(val = "") {
 	service.share.group.list({ keyWord: val }).then((res) => {
 		groupOption.value = res.map((item: any) => ({
@@ -57,7 +47,6 @@ function getGroupOption(val = "") {
 }
 
 function onInfo(data: Eps.ShareInfoEntity, { next }: any) {
-	goodOptions.value = [{ value: data.goodId, label: data.goodName }];
 	groupOption.value = [{ value: data.groupId, label: data.groupName }];
 	next(data);
 }
@@ -70,25 +59,8 @@ const Upsert = useUpsert({
 		}
 	},
 	items: [
-		{
-			label: "商品",
-			prop: "goodId",
-			required: true,
-			component: {
-				name: "el-select",
-				options: goodOptions,
-				props: {
-					filterable: true,
-					remote: true,
-					"remote-method": getGoodList
-				}
-			}
-		},
-		{
-			label: "用户",
-			prop: "username",
-			component: { name: "el-input", props: { disabled: true } }
-		},
+		{ label: "子用户", prop: "name", required: true, component: { name: "el-input" } },
+		{ label: "用户", prop: "userId", required: true, component: { name: "el-input" } },
 		{
 			label: "分组",
 			prop: "groupId",
@@ -102,18 +74,7 @@ const Upsert = useUpsert({
 					"remote-method": getGroupOption
 				}
 			}
-		},
-		{
-			label: "执行时间",
-			prop: "actionTime",
-			component: {
-				name: "el-date-picker",
-				props: { type: "datetime", valueFormat: "YYYY-MM-DD HH:mm:ss" }
-			},
-			required: true
-		},
-		{ label: "价格比例", prop: "scale", required: true, component: { name: "el-input" } },
-		{ label: "文案", prop: "text", component: { name: "cl-editor-wang" }, required: true }
+		}
 	]
 });
 
@@ -121,17 +82,8 @@ const Upsert = useUpsert({
 const Table = useTable({
 	columns: [
 		{ type: "selection" },
-		{ label: "商品名称", prop: "goodName" },
-		{
-			label: "图片",
-			prop: "pics",
-			width: 210,
-			component: { name: "cl-image", props: { size: 50 } }
-		},
-		{ label: "文案", prop: "text" },
-		{ label: "执行时间", prop: "actionTime" },
-		{ label: "重复", prop: "repeat" },
-		{ label: "用户", prop: "userName" },
+		{ label: "子账号", prop: "name" },
+		{ label: "用户", prop: "username" },
 		{ label: "分组", prop: "groupName" },
 		{ type: "op", buttons: ["edit", "delete"] }
 	]
@@ -140,7 +92,7 @@ const Table = useTable({
 // cl-crud 配置
 const Crud = useCrud(
 	{
-		service: service.share.task
+		service: service.share.children
 	},
 	(app) => {
 		app.refresh();
