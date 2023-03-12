@@ -56,7 +56,7 @@ import { useCool, config, module, useBrowser } from "/@/cool";
 import { useBase } from "/$/base";
 import { Notebook, ArrowLeft, BellFilled } from "@element-plus/icons-vue";
 import { debounce } from "lodash-es";
-// import io from "socket.io-client";
+import io from "socket.io-client";
 import { Socket } from "socket.io-client";
 import ChatMessage from "./message.vue";
 import ChatSession from "./session.vue";
@@ -86,40 +86,49 @@ const unCount = ref(parseInt(String(Math.random() * 100)));
 
 // Socket
 let socket: Socket;
+let socket1: Socket;
 
 // 连接
-function connect() {
+function connect(socket: Socket) {
 	refresh();
 
-	// if (!socket) {
-	// 	socket = io(config.host + options.path, {
-	// 		auth: {
-	// 			token: user.token
-	// 		}
-	// 	});
+	if (!socket) {
+		socket = io(config.host + options.path, {
+			auth: {
+				token: user.token
+			}
+		});
 
-	// 	socket.on("connect", () => {
-	// 		console.log(`connect ${user.info?.nickName}`);
+		socket.on("connect", () => {
+			console.log(`connect ${user.info?.nickName}`);
 
-	// 		// 监听消息
-	// 		socket.on("message", (msg) => {
-	// 			console.log(msg);
-	// 			mitt("chat-message", msg);
-	// 		});
+			// 监听消息
+			socket.on("message", (msg) => {
+				console.log(msg);
+				mitt.emit("chat-message", msg);
 
-	// 		refresh();
-	// 	});
+				if (msg === "everyone") {
+					socket.emit("test", 1, 2, 3);
+				}
+			});
 
-	// 	socket.on("disconnect", (err) => {
-	// 		console.error(err);
-	// 	});
-	// }
+			refresh();
+		});
+
+		socket.on("disconnect", (err) => {
+			console.error(err);
+		});
+
+		window.test.push(socket);
+	}
 }
 
 // 打开
 function open() {
+	window.test = [];
 	visible.value = true;
-	connect();
+	connect(socket);
+	connect(socket1);
 }
 
 // 关闭
