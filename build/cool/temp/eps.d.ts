@@ -295,6 +295,10 @@ declare namespace Eps {
 		 */
 		type?: number;
 		/**
+		 * 描述
+		 */
+		desc?: string;
+		/**
 		 * 创建时间
 		 */
 		createTime?: Date;
@@ -360,6 +364,177 @@ declare namespace Eps {
 		 * 标识
 		 */
 		key?: string;
+		/**
+		 * 创建时间
+		 */
+		createTime?: Date;
+		/**
+		 * 更新时间
+		 */
+		updateTime?: Date;
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ShareChildrenEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+		/**
+		 * 用户ID
+		 */
+		userId?: number;
+		/**
+		 * 子账号
+		 */
+		name?: string;
+		/**
+		 * 分组ID
+		 */
+		groupId?: number;
+		/**
+		 * 创建时间
+		 */
+		createTime?: Date;
+		/**
+		 * 更新时间
+		 */
+		updateTime?: Date;
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ShareGroupEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+		/**
+		 * 用户ID
+		 */
+		userId?: number;
+		/**
+		 * 分组名称
+		 */
+		name?: string;
+		/**
+		 * 创建时间
+		 */
+		createTime?: Date;
+		/**
+		 * 更新时间
+		 */
+		updateTime?: Date;
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ShareInfoEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+		/**
+		 * 商品ID
+		 */
+		goodId?: number;
+		/**
+		 * 商品名称
+		 */
+		goodName?: string;
+		/**
+		 * 图片
+		 */
+		pics?: string;
+		/**
+		 * 价格
+		 */
+		prices?: string;
+		/**
+		 * 创建时间
+		 */
+		createTime?: Date;
+		/**
+		 * 更新时间
+		 */
+		updateTime?: Date;
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ShareTaskEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+		/**
+		 * 商品ID
+		 */
+		goodId?: number;
+		/**
+		 * 用户ID
+		 */
+		userId?: number;
+		/**
+		 * 分组ID
+		 */
+		groupId?: number;
+		/**
+		 * 执行时间
+		 */
+		actionTime?: Date;
+		/**
+		 * 重复
+		 */
+		repeat?: number;
+		/**
+		 * 价格比例
+		 */
+		scale?: number;
+		/**
+		 * 文案
+		 */
+		text?: string;
+		/**
+		 * 创建时间
+		 */
+		createTime?: Date;
+		/**
+		 * 更新时间
+		 */
+		updateTime?: Date;
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ShareTaskRecordEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+		/**
+		 * 任务ID
+		 */
+		taskId?: number;
+		/**
+		 * 子用户ID
+		 */
+		childId?: number;
+		/**
+		 * 备注
+		 */
+		remark?: string;
 		/**
 		 * 创建时间
 		 */
@@ -1416,6 +1591,291 @@ declare namespace Eps {
 		request: Service["request"];
 	}
 
+	interface ShareChildren {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ShareChildrenEntity>;
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<{
+			pagination: { size: number; page: number; total: number };
+			list: ShareChildrenEntity[];
+			[key: string]: any;
+		}>;
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ShareChildrenEntity[]>;
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			page: string;
+			list: string;
+			add: string;
+		};
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			page: boolean;
+			list: boolean;
+			add: boolean;
+		};
+		/**
+		 * 请求
+		 */
+		request: Service["request"];
+	}
+
+	interface ShareGroup {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ShareGroupEntity>;
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<{
+			pagination: { size: number; page: number; total: number };
+			list: ShareGroupEntity[];
+			[key: string]: any;
+		}>;
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ShareGroupEntity[]>;
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			page: string;
+			list: string;
+			add: string;
+		};
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			page: boolean;
+			list: boolean;
+			add: boolean;
+		};
+		/**
+		 * 请求
+		 */
+		request: Service["request"];
+	}
+
+	interface ShareInfo {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ShareInfoEntity>;
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<{
+			pagination: { size: number; page: number; total: number };
+			list: ShareInfoEntity[];
+			[key: string]: any;
+		}>;
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ShareInfoEntity[]>;
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			page: string;
+			list: string;
+			add: string;
+		};
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			page: boolean;
+			list: boolean;
+			add: boolean;
+		};
+		/**
+		 * 请求
+		 */
+		request: Service["request"];
+	}
+
+	interface ShareTask {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<{
+			pagination: { size: number; page: number; total: number };
+			list: ShareTaskEntity[];
+			[key: string]: any;
+		}>;
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ShareTaskEntity>;
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ShareTaskEntity[]>;
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			page: string;
+			info: string;
+			list: string;
+			add: string;
+		};
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			page: boolean;
+			info: boolean;
+			list: boolean;
+			add: boolean;
+		};
+		/**
+		 * 请求
+		 */
+		request: Service["request"];
+	}
+
+	interface ShareTask_record {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ShareTaskRecordEntity>;
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<{
+			pagination: { size: number; page: number; total: number };
+			list: ShareTaskRecordEntity[];
+			[key: string]: any;
+		}>;
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ShareTaskRecordEntity[]>;
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			page: string;
+			list: string;
+			add: string;
+		};
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			page: boolean;
+			list: boolean;
+			add: boolean;
+		};
+		/**
+		 * 请求
+		 */
+		request: Service["request"];
+	}
+
 	interface SpaceInfo {
 		/**
 		 * 删除
@@ -1636,6 +2096,13 @@ declare namespace Eps {
 		};
 		demo: { goods: DemoGoods };
 		dict: { info: DictInfo; type: DictType };
+		share: {
+			children: ShareChildren;
+			group: ShareGroup;
+			info: ShareInfo;
+			task: ShareTask;
+			task_record: ShareTask_record;
+		};
 		space: { info: SpaceInfo; type: SpaceType };
 		task: { info: TaskInfo };
 	};
